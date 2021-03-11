@@ -1,6 +1,8 @@
 {
     "name": "AillieoUtils.UI.UIFadingText.Editor",
-    "references": [],
+    "references": [
+        "AillieoUtils.UI.UIFadingText"
+    ],
     "includePlatforms": [
         "Editor"
     ],

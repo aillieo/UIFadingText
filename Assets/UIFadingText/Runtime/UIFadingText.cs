@@ -25,6 +25,11 @@ namespace AillieoUtils.UI
 
         public void ModifyMesh(VertexHelper vh)
         {
+            if(!isActiveAndEnabled)
+            {
+                return;
+            }
+
             list.Clear();
             vh.GetUIVertexStream(list);
 
@@ -57,12 +62,24 @@ namespace AillieoUtils.UI
 
         public void ModifyMesh(Mesh mesh)
         {
-            throw new System.NotImplementedException();
+            using (var vh = new VertexHelper(mesh))
+            {
+                ModifyMesh(vh);
+                vh.FillMesh(mesh);
+            }
         }
 
         protected override void OnValueChanged()
         {
             graphic.SetVerticesDirty();
         }
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+        }
+#endif
+
     }
 }

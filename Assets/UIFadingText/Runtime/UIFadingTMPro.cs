@@ -23,6 +23,11 @@ namespace AillieoUtils.UI
         {
             graphic.ForceMeshUpdate();
 
+            if (!isActiveAndEnabled)
+            {
+                return;
+            }
+
             TMPro.TMP_TextInfo textInfo = graphic.textInfo;
 
             Color32[] vertColors;
@@ -59,5 +64,13 @@ namespace AillieoUtils.UI
 
             graphic.UpdateVertexData(TMPro.TMP_VertexDataUpdateFlags.Colors32);
         }
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+        }
+#endif
+
     }
 }

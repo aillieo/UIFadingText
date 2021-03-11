@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace AillieoUtils.UI
 {
+    [ExecuteAlways]
     public abstract class BaseFadingText: MonoBehaviour
     {
+        [Range(0, 1)]
         public float smoothFactor = 1f;
 
         public bool useAlphaOnly = true;
@@ -63,6 +65,16 @@ namespace AillieoUtils.UI
             }
         }
 
+        protected virtual void OnEnable()
+        {
+            OnValueChanged();
+        }
+
+        protected virtual void OnDisable()
+        {
+            OnValueChanged();
+        }
+
         protected float InternalEvaluate(int index, int total)
         {
             int idx = index + 1;
@@ -86,9 +98,19 @@ namespace AillieoUtils.UI
         protected Color EvaluateColorForChar(int index, int total)
         {
             float v = EvaluateValueForChar(index, total);
-            return Color.Lerp(startColor, endColor, v);
+            return Color.Lerp(endColor, startColor, v);
         }
 
         protected abstract void OnValueChanged();
+
+#if UNITY_EDITOR
+        protected virtual void OnValidate()
+        {
+            mValue = Mathf.Clamp01(mValue);
+            smoothFactor = Mathf.Clamp01(smoothFactor);
+            OnValueChanged();
+        }
+#endif
+
     }
 }
